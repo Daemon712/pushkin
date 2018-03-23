@@ -3,7 +3,7 @@ package io.blockchain.pushkin.service.impl;
 import com.pengrad.telegrambot.model.Message;
 import io.blockchain.pushkin.model.*;
 import io.blockchain.pushkin.repo.MessageEntityRepository;
-import io.blockchain.pushkin.repo.UserDictRepository;
+import io.blockchain.pushkin.repo.WordUsageRepository;
 import io.blockchain.pushkin.service.api.CollectorService;
 import io.blockchain.pushkin.service.api.LemmaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import java.util.stream.IntStream;
 @Service
 public class CollectorServiceImpl implements CollectorService {
     private MessageEntityRepository messageEntityRepository;
-    private UserDictRepository userDictRepository;
+    private WordUsageRepository wordUsageRepository;
     private LemmaService lemmaService;
 
     @Async
@@ -34,11 +34,12 @@ public class CollectorServiceImpl implements CollectorService {
         messageEntityRepository.save(messageEntity);
 
         List<Word> lemmas = lemmaService.getLemmas(message.text());
-        List<UserDict> userDictList = IntStream.range(0, lemmas.size())
-                .mapToObj(i -> new UserDict(new UserDictPK(messagePK, i), lemmas.get(i)))
+        List<WordUsage> wordUsageList = IntStream.range(0, lemmas.size())
+                .mapToObj(i -> new WordUsage(new WordUsagePK(messagePK, i), lemmas.get(i)))
+                .peek(wordUsage -> wordUsage.setMessage(messageEntity))
                 .collect(Collectors.toList());
 
-        userDictRepository.saveAll(userDictList);
+        wordUsageRepository.saveAll(wordUsageList);
     }
 
     @Autowired
@@ -47,8 +48,8 @@ public class CollectorServiceImpl implements CollectorService {
     }
 
     @Autowired
-    public void setUserDictRepository(UserDictRepository userDictRepository) {
-        this.userDictRepository = userDictRepository;
+    public void setWordUsageRepository(WordUsageRepository wordUsageRepository) {
+        this.wordUsageRepository = wordUsageRepository;
     }
 
     @Autowired

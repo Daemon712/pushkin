@@ -16,6 +16,7 @@ import scala.collection.JavaConversions;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,7 +34,9 @@ public class LemmaServiceImpl implements LemmaService {
                             .info()
                             .toIterable());
             return report.stream()
+                    .filter(info -> info.lex().isDefined())
                     .map(info -> new Word(info.lex().get(), parseSpeechPart(info.rawResponse())))
+                    .filter(Objects::nonNull)
                     .collect(Collectors.toList());
         } catch (MyStemApplicationException e) {
             throw new RuntimeException(e);
@@ -43,6 +46,7 @@ public class LemmaServiceImpl implements LemmaService {
     private SpeechPart parseSpeechPart(String myStemResponse){
         JSONObject responseObj = new JSONObject(myStemResponse);
         JSONArray analysis = responseObj.getJSONArray("analysis");
+        if (analysis.length() == 0) return null;
         String grammar = analysis.getJSONObject(0).getString("gr");
         String speechPart = grammar.split("\\W")[0];
         switch (speechPart){

@@ -6,17 +6,17 @@ import javax.persistence.Embedded;
 import java.io.Serializable;
 
 @Embeddable
-public class UserDictPK implements Serializable {
+public class WordUsagePK implements Serializable {
     @Embedded
     private MessagePK messagePK;
 
     @Column
     private Integer index;
 
-    public UserDictPK() {
+    public WordUsagePK() {
     }
 
-    public UserDictPK(MessagePK messagePK, Integer index) {
+    public WordUsagePK(MessagePK messagePK, Integer index) {
         this.messagePK = messagePK;
         this.index = index;
     }

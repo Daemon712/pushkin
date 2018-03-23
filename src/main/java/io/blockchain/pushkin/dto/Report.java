@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 public class Report {
     private String content;
     private LocalDateTime reportDateTime;
-    private Long uniqueWords;
-    private Long totalWords;
+    private Integer uniqueWords;
+    private Integer totalWords;
     private Double rating;
 
     public String getContent() {
@@ -25,19 +25,19 @@ public class Report {
         this.reportDateTime = reportDateTime;
     }
 
-    public Long getUniqueWords() {
+    public Integer getUniqueWords() {
         return uniqueWords;
     }
 
-    public void setUniqueWords(Long uniqueWords) {
+    public void setUniqueWords(Integer uniqueWords) {
         this.uniqueWords = uniqueWords;
     }
 
-    public Long getTotalWords() {
+    public Integer getTotalWords() {
         return totalWords;
     }
 
-    public void setTotalWords(Long totalWords) {
+    public void setTotalWords(Integer totalWords) {
         this.totalWords = totalWords;
     }
 

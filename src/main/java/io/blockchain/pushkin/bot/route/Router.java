@@ -31,18 +31,15 @@ public class Router {
      * @return handler
      */
     public Handler route(Message message) {
-        if (!message.text().isEmpty()) {
-            switch (message.text()) {
-                case "/start":
-                    return startHandler;
-                case "/on":
-                    return onHandler;
-                case "/report":
-                    return reportHandler;
-                default:
-                    return noneHandler;
-            }
+        switch (message.text()) {
+            case "/start":
+                return startHandler;
+            case "/on":
+                return onHandler;
+            case "/report":
+                return reportHandler;
+            default:
+                return noneHandler;
         }
-        return noneHandler;
     }
 }
