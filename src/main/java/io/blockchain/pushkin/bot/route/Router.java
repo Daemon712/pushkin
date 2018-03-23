@@ -11,20 +11,23 @@ public class Router {
     private Handler onHandler;
     private Handler noneHandler;
     private Handler startHandler;
+    private Handler reportHandler;
 
     @Autowired
     public Router(@Qualifier("onHandler") Handler onHandler,
                   @Qualifier("noneHandler") Handler noneHandler,
-                  @Qualifier("startHandler") Handler startHandler) {
+                  @Qualifier("startHandler") Handler startHandler,
+                  @Qualifier("reportHandler") Handler reportHandler) {
         this.onHandler = onHandler;
         this.noneHandler = noneHandler;
         this.startHandler = startHandler;
+        this.reportHandler = reportHandler;
     }
 
     /**
      * Routes commands to handlers
      *
-     * @param message
+     * @param message - user's message
      * @return handler
      */
     public Handler route(Message message) {
@@ -34,6 +37,8 @@ public class Router {
                     return startHandler;
                 case "/on":
                     return onHandler;
+                case "/report":
+                    return reportHandler;
                 default:
                     return noneHandler;
             }
