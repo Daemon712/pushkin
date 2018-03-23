@@ -1,29 +1,38 @@
 package io.blockchain.pushkin.model;
 
-import javax.persistence.*;
-import java.util.Date;
+import javax.persistence.Embedded;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table
 public class UserDict {
     @EmbeddedId
-    private MessagePK messagePK;
+    private UserDictPK userDictPK;
 
     @Embedded
     private Word word;
 
-    @Column
-    private Date date;
-
-    @Column
-    private Integer userId;
-
-    public MessagePK getMessagePK() {
-        return messagePK;
+    public UserDict() {
     }
 
-    public void setMessagePK(MessagePK messagePK) {
-        this.messagePK = messagePK;
+    public UserDict(MessagePK messagePK, Integer index, Word word) {
+        this.userDictPK = new UserDictPK(messagePK, index);
+        this.word = word;
+    }
+
+    public UserDict(UserDictPK userDictPK, Word word) {
+        this.userDictPK = userDictPK;
+        this.word = word;
+    }
+
+    public UserDictPK getUserDictPK() {
+        return userDictPK;
+    }
+
+    public void setUserDictPK(UserDictPK userDictPK) {
+        this.userDictPK = userDictPK;
     }
 
     public Word getWord() {
@@ -32,21 +41,5 @@ public class UserDict {
 
     public void setWord(Word word) {
         this.word = word;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 }
