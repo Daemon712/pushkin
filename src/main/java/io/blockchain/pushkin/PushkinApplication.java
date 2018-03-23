@@ -5,8 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class PushkinApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(PushkinApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(PushkinApplication.class, args);
+    }
 }
