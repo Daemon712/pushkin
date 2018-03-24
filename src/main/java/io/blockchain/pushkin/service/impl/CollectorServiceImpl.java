@@ -29,7 +29,7 @@ public class CollectorServiceImpl implements CollectorService {
         messageEntity.setMessagePK(messagePK);
         messageEntity.setUserId(message.from().id());
         messageEntity.setText(message.text());
-        messageEntity.setDate(new Date(1000 * message.date()));
+        messageEntity.setDate(new Date(1000L * message.date()));
 
         messageEntityRepository.save(messageEntity);
 
