@@ -30,7 +30,9 @@ public class SpellCheckerServiceImpl implements SpellCheckerService {
                     System.out.println("Error detected from pos: " + match.getFromPos()
                             + "\nReplacements: " + match.getSuggestedReplacements());
                 }
-                return (1 - matches.size() / amountOfWords) * 100.0;
+                Double result = (1 - (matches.size() / amountOfWords)) * 100.0;
+                System.out.println("Literacy correction: " + result);
+                return result;
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;
