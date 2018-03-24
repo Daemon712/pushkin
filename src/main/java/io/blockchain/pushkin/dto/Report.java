@@ -66,6 +66,7 @@ public class Report {
                 ", uniqueWords=" + uniqueWords +
                 ", totalWords=" + totalWords +
                 ", rating=" + rating +
+                ", literacy=" + literacy +
                 '}';
     }
 }

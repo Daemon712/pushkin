@@ -97,6 +97,11 @@ public class ReportServiceImpl implements ReportService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<UserRating> buildChatLiteracyReport(Long chatId) {
+        return messageEntityRepository.calcUserLiteracyByChat(chatId);
+    }
+
     private Double normalizeRating(Double rating) {
         return 1000d / rating;
     }

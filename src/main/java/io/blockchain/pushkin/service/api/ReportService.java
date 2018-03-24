@@ -10,5 +10,7 @@ public interface ReportService {
 
     List<UserRating> buildChatRatingReport(Long chatId);
 
+    List<UserRating> buildChatLiteracyReport(Long chatId);
+
     Report buildChatReport(Long chatId);
 }
