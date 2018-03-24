@@ -3,6 +3,7 @@ package io.blockchain.pushkin.bot;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
+import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.SendMessage;
 import io.blockchain.pushkin.bot.handler.Handler;
 import io.blockchain.pushkin.bot.route.Router;
@@ -34,7 +35,7 @@ public class PushkinBot {
                         .forEach(m -> {
                             Handler handler = router.route(m);
                             String response = handler.handle(m);
-                            telegramBot.execute(new SendMessage(m.chat().id(), response));
+                            telegramBot.execute(new SendMessage(m.chat().id(), response).parseMode(ParseMode.Markdown));
                         });
             } catch (Exception e) {
                 e.printStackTrace();

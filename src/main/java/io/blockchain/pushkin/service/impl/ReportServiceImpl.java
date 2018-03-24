@@ -2,6 +2,7 @@ package io.blockchain.pushkin.service.impl;
 
 import io.blockchain.pushkin.dto.Document;
 import io.blockchain.pushkin.dto.Report;
+import io.blockchain.pushkin.dto.UserRating;
 import io.blockchain.pushkin.model.SpeechPart;
 import io.blockchain.pushkin.model.Word;
 import io.blockchain.pushkin.repo.MessageEntityRepository;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ReportServiceImpl implements ReportService {
@@ -35,8 +37,9 @@ public class ReportServiceImpl implements ReportService {
         report.setReportDateTime(LocalDateTime.now());
         report.setUniqueWords(wordUsageRepository.findDistinctWordByMessageUserId(userId).size());
         report.setTotalWords(wordUsageRepository.countByMessageUserId(userId));
+        report.setRating(normalizeRating(wordUsageRepository.averageWordsRatingByMessageUserId(userId, MEANINGFUL_SPEECH_PARTS).orElse(0d)));
         report.setRating(wordUsageRepository.averageWordsRatingByMessageUserId(userId, MEANINGFUL_SPEECH_PARTS).orElse(0d));
-        report.setErrorFrequency(messageEntityRepository.averageLiteracy(userId).orElse(0.0));
+        report.setLiteracy(messageEntityRepository.averageLiteracy(userId).orElse(0.0));
         return report;
     }
 
@@ -56,7 +59,6 @@ public class ReportServiceImpl implements ReportService {
             documents.put(d.getUserId(), userWords);
         });
         Map<Integer, Map<Word, Double>> tfidfMap = keyWordService.calcKeyWords(documents);
-
         //TODO implement Report building
         tfidfMap.forEach((k, v) -> {
             Map<Word, Double> wordDoubleMap = sortByValue(v);
@@ -84,5 +86,17 @@ public class ReportServiceImpl implements ReportService {
             result.put(entry.getKey(), entry.getValue());
         }
         return result;
+    }
+
+    @Override
+    public List<UserRating> buildChatRatingReport(Long chatId) {
+        return wordUsageRepository.calcUserRatingByChat(chatId, MEANINGFUL_SPEECH_PARTS)
+                .stream()
+                .peek(ur -> ur.setRating(normalizeRating(ur.getRating())))
+                .collect(Collectors.toList());
+    }
+
+    private Double normalizeRating(Double rating){
+        return 1000d / rating;
     }
 }

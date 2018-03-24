@@ -8,7 +8,7 @@ public class Report {
     private Integer uniqueWords;
     private Integer totalWords;
     private Double rating;
-    private Double errorFrequency;
+    private Double literacy;
 
     public String getContent() {
         return content;
@@ -50,12 +50,12 @@ public class Report {
         this.rating = rating;
     }
 
-    public Double getErrorFrequency() {
-        return errorFrequency;
+    public Double getLiteracy() {
+        return literacy;
     }
 
-    public void setErrorFrequency(Double errorFrequency) {
-        this.errorFrequency = errorFrequency;
+    public void setLiteracy(Double literacy) {
+        this.literacy= literacy;
     }
 
 

@@ -8,24 +8,23 @@ import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 
-@Component("reportHandler")
-public class ReportHandler implements Handler {
-    private static final String PATTERN =
-            "Ваш словарный запас: {1} слов\n" +
-            "Ваша оценка: {2} попугаев\n" +
+@Component("userReportHandler")
+public class UserReportHandler implements Handler {
+    private static final String PATTERN = "Ваш словарный запас: {1} слов\n" +
+            "Ваша оценка: {2,number,#.##} попугаев\n" +
             "Всего проанализировано {0} слов\n" +
-            "Грамотность: {3}%";
+            "Грамотность: {3,number,#.##}%";
 
     private ReportService reportService;
 
     @Autowired
-    public ReportHandler(ReportService reportService) {
+    public UserReportHandler(ReportService reportService) {
         this.reportService = reportService;
     }
 
     @Override
     public String handle(Message message) {
         Report report = reportService.buildUserReport(message.from().id());
-        return MessageFormat.format(PATTERN, report.getTotalWords(), report.getUniqueWords(), 1000d/report.getRating(), report.getErrorFrequency());
+        return MessageFormat.format(PATTERN, report.getTotalWords(), report.getUniqueWords(), report.getRating(), report.getLiteracy());
     }
 }
