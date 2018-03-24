@@ -23,7 +23,7 @@ public class SpellCheckerServiceImpl implements SpellCheckerService {
     @Override
     public Double checkMessage(String message, int amountOfWords) {
         if (amountOfWords == 0) {
-            return 100.0;
+            return null;
         } else {
             JLanguageTool langTool = new JLanguageTool(language);
 
@@ -37,7 +37,7 @@ public class SpellCheckerServiceImpl implements SpellCheckerService {
                 return (1 - matches.size() / amountOfWords) * 100.0;
             } catch (IOException e) {
                 e.printStackTrace();
-                return 100.0;
+                return null;
             }
         }
     }
