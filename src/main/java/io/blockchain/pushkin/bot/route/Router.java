@@ -11,23 +11,19 @@ public class Router {
     private final Handler onHandler;
     private final Handler noneHandler;
     private final Handler startHandler;
-    private final Handler reportHandler;
-    private Handler onHandler;
-    private Handler noneHandler;
-    private Handler startHandler;
-    private Handler reportHandler;
-    private Handler chatRatingReportHandler;
+    private final Handler userReportHandler;
+    private final Handler chatRatingReportHandler;
 
     @Autowired
     public Router(@Qualifier("onHandler") Handler onHandler,
                   @Qualifier("noneHandler") Handler noneHandler,
                   @Qualifier("startHandler") Handler startHandler,
-                  @Qualifier("userReportHandler") Handler reportHandler,
+                  @Qualifier("userReportHandler") Handler userReportHandler,
                   @Qualifier("chatRatingReportHandler") Handler chatRatingReportHandler) {
         this.onHandler = onHandler;
         this.noneHandler = noneHandler;
         this.startHandler = startHandler;
-        this.reportHandler = reportHandler;
+        this.userReportHandler = userReportHandler;
         this.chatRatingReportHandler = chatRatingReportHandler;
     }
 
@@ -44,24 +40,14 @@ public class Router {
                     return startHandler;
                 case "/on":
                     return onHandler;
-                case "/report":
-                    return reportHandler;
+                case "/my_stats":
+                    return userReportHandler;
+                case "/chat_lex_stats":
+                    return chatRatingReportHandler;
                 default:
                     return noneHandler;
             }
         }
         return noneHandler;
-        switch (message.text()) {
-            case "/start":
-                return startHandler;
-            case "/on":
-                return onHandler;
-            case "/my_stats":
-                return reportHandler;
-            case "/chat_lex_stats":
-                return chatRatingReportHandler;
-            default:
-                return noneHandler;
-        }
     }
 }

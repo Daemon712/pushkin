@@ -6,16 +6,15 @@ import io.blockchain.pushkin.service.api.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.text.MessageFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Component("chatRatingReportHandler")
 public class ChatRatingReportHandler implements Handler {
-    private static final String HEADER = "Топ словарных запасов:\n";
+    private static final String HEADER = "Рейтинг:\n";
     private static final String EMPTY_RESPONSE = "Нет данных для анализа :(";
-    private static final String LINE_PATTERN = "{0}. (tg://user?id={1}) {2}";
+    private static final String LINE_PATTERN = "%d. [XXX](tg://user?id=%d) %.2f";
 
     private ReportService reportService;
 
@@ -42,7 +41,7 @@ public class ChatRatingReportHandler implements Handler {
 
     private String formatLines(IntStream intStream, List<UserRating> userRatings) {
         return intStream
-                .mapToObj(i -> MessageFormat.format(LINE_PATTERN, i, userRatings.get(i).getUserId(), userRatings.get(i).getRating()))
+                .mapToObj(i -> String.format(LINE_PATTERN, i + 1, userRatings.get(i).getUserId(), userRatings.get(i).getRating()))
                 .collect(Collectors.joining("\n"));
 
     }
