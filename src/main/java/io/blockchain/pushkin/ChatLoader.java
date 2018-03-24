@@ -3,7 +3,6 @@ package io.blockchain.pushkin;
 import io.blockchain.pushkin.model.MessageEntity;
 import io.blockchain.pushkin.model.MessagePK;
 import io.blockchain.pushkin.repo.MessageEntityRepository;
-import io.blockchain.pushkin.service.api.LoadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
