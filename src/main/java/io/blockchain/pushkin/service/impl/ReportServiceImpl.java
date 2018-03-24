@@ -36,7 +36,7 @@ public class ReportServiceImpl implements ReportService {
         report.setUniqueWords(wordUsageRepository.findDistinctWordByMessageUserId(userId).size());
         report.setTotalWords(wordUsageRepository.countByMessageUserId(userId));
         report.setRating(wordUsageRepository.averageWordsRatingByMessageUserId(userId, MEANINGFUL_SPEECH_PARTS).orElse(0d));
-        report.setErrorFrequency(messageEntityRepository.averageLiteracy(userId).orElse(0.0));
+        report.setLiteracy(messageEntityRepository.averageLiteracy(userId).orElse(0.0));
         return report;
     }
 

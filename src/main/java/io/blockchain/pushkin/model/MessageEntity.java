@@ -22,7 +22,7 @@ public class MessageEntity {
     private String text;
 
     @Column
-    private Double errorFrequency;
+    private Double literacy;
 
     public MessagePK getMessagePK() {
         return messagePK;
@@ -56,11 +56,11 @@ public class MessageEntity {
         this.text = text;
     }
 
-    public Double getErrorFrequency() {
-        return errorFrequency;
+    public Double getLiteracy() {
+        return literacy;
     }
 
-    public void setErrorFrequency(Double errorFrequency) {
-        this.errorFrequency = errorFrequency;
+    public void setLiteracy(Double literacy) {
+        this.literacy= literacy;
     }
 }
