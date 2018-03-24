@@ -30,7 +30,11 @@ public class SpellCheckerServiceImpl implements SpellCheckerService {
             List<String> strings = new ArrayList<>();
             try {
                 List<RuleMatch> matches = langTool.check(message);
-                return (double) matches.size() / (double) amountOfWords;
+                for (RuleMatch match : matches) {
+                    System.out.println("Error detected from pos: " + match.getFromPos()
+                            + "\nReplacements: " + match.getSuggestedReplacements());
+                }
+                return (1 - matches.size() / amountOfWords) * 100.0;
             } catch (IOException e) {
                 e.printStackTrace();
                 return 0.0;

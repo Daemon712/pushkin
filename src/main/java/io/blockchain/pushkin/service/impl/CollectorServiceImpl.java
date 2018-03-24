@@ -39,8 +39,8 @@ public class CollectorServiceImpl implements CollectorService {
         List<Word> lemmas = lemmaService.getLemmas(message.text());
 
         // Spell checking
-        Double errorFrequency = spellCheckerService.checkMessage(messageEntity.getText(), lemmas.size());
-        messageEntity.setErrorFrequency(errorFrequency);
+        Double literacy = spellCheckerService.checkMessage(messageEntity.getText(), lemmas.size());
+        messageEntity.setLiteracy(literacy);
 
         messageEntityRepository.save(messageEntity);
 
