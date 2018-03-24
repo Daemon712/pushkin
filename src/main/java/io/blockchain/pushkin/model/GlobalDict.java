@@ -1,7 +1,9 @@
 package io.blockchain.pushkin.model;
 
-import javax.persistence.*;
-import java.math.BigDecimal;
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table
@@ -10,7 +12,7 @@ public class GlobalDict {
     private Word word;
 
     @Column
-    private BigDecimal rate;
+    private Double rate;
 
     @Column
     private Long count;
@@ -23,11 +25,11 @@ public class GlobalDict {
         this.word = word;
     }
 
-    public BigDecimal getRate() {
+    public Double getRate() {
         return rate;
     }
 
-    public void setRate(BigDecimal rate) {
+    public void setRate(Double rate) {
         this.rate = rate;
     }
 
