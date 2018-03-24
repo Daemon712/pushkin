@@ -15,7 +15,7 @@ public class UserReportHandler implements Handler {
             "Всего проанализировано {0} слов\n" +
             "Грамотность: {3,number,#.##}%";
 
-    private ReportService reportService;
+    private final ReportService reportService;
 
     @Autowired
     public UserReportHandler(ReportService reportService) {

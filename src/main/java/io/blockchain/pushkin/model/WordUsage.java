@@ -13,8 +13,8 @@ public class WordUsage {
 
     @MapsId("messagePK")
     @JoinColumns({
-            @JoinColumn(name="chatId"),
-            @JoinColumn(name="messageId")
+            @JoinColumn(name = "chatId"),
+            @JoinColumn(name = "messageId")
     })
     @ManyToOne
     private MessageEntity message;

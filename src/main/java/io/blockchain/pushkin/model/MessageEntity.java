@@ -61,6 +61,6 @@ public class MessageEntity {
     }
 
     public void setLiteracy(Double literacy) {
-        this.literacy= literacy;
+        this.literacy = literacy;
     }
 }
