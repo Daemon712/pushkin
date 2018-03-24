@@ -26,6 +26,9 @@ public class CollectorServiceImpl implements CollectorService {
     @Async
     @Override
     public void handleMessage(Message message) {
+        if (message.text() == null) {
+            return;
+        }
         MessageEntity messageEntity = new MessageEntity();
         MessagePK messagePK = new MessagePK(message.chat().id(), message.messageId());
         messageEntity.setMessagePK(messagePK);

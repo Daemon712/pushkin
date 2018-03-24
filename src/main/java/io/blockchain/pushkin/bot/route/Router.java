@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Router {
-    private Handler onHandler;
-    private Handler noneHandler;
-    private Handler startHandler;
-    private Handler reportHandler;
+    private final Handler onHandler;
+    private final Handler noneHandler;
+    private final Handler startHandler;
+    private final Handler reportHandler;
 
     @Autowired
     public Router(@Qualifier("onHandler") Handler onHandler,
@@ -31,15 +31,18 @@ public class Router {
      * @return handler
      */
     public Handler route(Message message) {
-        switch (message.text()) {
-            case "/start":
-                return startHandler;
-            case "/on":
-                return onHandler;
-            case "/report":
-                return reportHandler;
-            default:
-                return noneHandler;
+        if (message.text() != null) {
+            switch (message.text()) {
+                case "/start":
+                    return startHandler;
+                case "/on":
+                    return onHandler;
+                case "/report":
+                    return reportHandler;
+                default:
+                    return noneHandler;
+            }
         }
+        return noneHandler;
     }
 }
