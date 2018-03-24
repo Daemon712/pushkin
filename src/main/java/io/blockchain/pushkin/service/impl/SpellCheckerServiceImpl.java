@@ -4,6 +4,7 @@ import io.blockchain.pushkin.service.api.SpellCheckerService;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.Russian;
+import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.RuleMatch;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,7 @@ public class SpellCheckerServiceImpl implements SpellCheckerService {
             return null;
         } else {
             JLanguageTool langTool = new JLanguageTool(language);
+            langTool.disableCategory(new CategoryId("CASING"));
             try {
                 List<RuleMatch> matches = langTool.check(message);
                 for (RuleMatch match : matches) {
