@@ -13,29 +13,30 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("SpringDataRepositoryMethodReturnTypeInspection")
 public interface WordUsageRepository extends CrudRepository<WordUsage, WordUsagePK> {
-    Integer countByMessageUserId(Integer userId);
+    Integer countByMessageUserUserId(Integer userId);
 
-    @Query("SELECT distinct wu.word FROM WordUsage wu where wu.message.userId = :userID")
+    @Query("SELECT distinct wu.word FROM WordUsage wu where wu.message.user.userId = :userID")
     List<Word> findDistinctWordByMessageUserId(@Param("userID") Integer userId);
 
-    @Query("SELECT new io.blockchain.pushkin.dto.Document(wu.message.userId, wu.word) " +
+    @Query("SELECT new io.blockchain.pushkin.dto.Document(wu.message.user.userId, wu.word) " +
             "FROM WordUsage wu where wu.message.messagePK.chatId = :chatId")
     List<Document> findDocumentsByChatId(@Param("chatId") Long chatId);
 
     @Query("SELECT avg(gd.rate) " +
             "FROM WordUsage wu " +
             "JOIN GlobalDict gd ON wu.word = gd.word " +
-            "WHERE wu.message.userId = :userID" +
+            "WHERE wu.message.user.userId = :userID" +
             " AND wu.word.speechPart in (:speechParts)")
     Optional<Double> averageWordsRatingByMessageUserId(@Param("userID") Integer userId, @Param("speechParts") List<SpeechPart> speechParts);
 
-    @Query("SELECT new io.blockchain.pushkin.dto.UserRating(wu.message.userId, avg(gd.rate)) " +
+    @Query("SELECT new io.blockchain.pushkin.dto.UserRating(wu.message.user, avg(gd.rate)) " +
             "FROM WordUsage wu " +
             "JOIN GlobalDict gd ON wu.word = gd.word " +
             "WHERE wu.message.messagePK.chatId = :chatId " +
             "AND wu.word.speechPart in (:speechParts) " +
-            "GROUP BY wu.message.userId " +
+            "GROUP BY wu.message.user.userId " +
             "ORDER BY avg(gd.rate)")
     List<UserRating> calcUserRatingByChat(@Param("chatId") Long chatId, @Param("speechParts") List<SpeechPart> speechParts);
 }

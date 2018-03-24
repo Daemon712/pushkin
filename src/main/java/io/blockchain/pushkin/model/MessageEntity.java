@@ -1,9 +1,6 @@
 package io.blockchain.pushkin.model;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Table
@@ -12,8 +9,8 @@ public class MessageEntity {
     @EmbeddedId
     private MessagePK messagePK;
 
-    @Column
-    private Integer userId;
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private TgUser user;
 
     @Column
     private Date date;
@@ -32,12 +29,12 @@ public class MessageEntity {
         this.messagePK = messagePK;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public TgUser getUser() {
+        return user;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(TgUser user) {
+        this.user = user;
     }
 
     public Date getDate() {

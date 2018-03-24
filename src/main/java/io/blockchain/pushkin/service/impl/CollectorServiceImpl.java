@@ -1,6 +1,7 @@
 package io.blockchain.pushkin.service.impl;
 
 import com.pengrad.telegrambot.model.Message;
+import com.pengrad.telegrambot.model.User;
 import io.blockchain.pushkin.model.*;
 import io.blockchain.pushkin.repo.MessageEntityRepository;
 import io.blockchain.pushkin.repo.WordUsageRepository;
@@ -32,7 +33,12 @@ public class CollectorServiceImpl implements CollectorService {
         MessageEntity messageEntity = new MessageEntity();
         MessagePK messagePK = new MessagePK(message.chat().id(), message.messageId());
         messageEntity.setMessagePK(messagePK);
-        messageEntity.setUserId(message.from().id());
+
+        User user = message.from();
+        String userName = user.firstName() == null ? user.lastName()
+                : user.lastName() == null ? user.firstName()
+                : user.firstName() + " " + user.lastName();
+        messageEntity.setUser(new TgUser(user.id(), userName));
         messageEntity.setText(message.text());
         messageEntity.setDate(new Date(1000L * message.date()));
 
