@@ -49,6 +49,11 @@
             <artifactId>mystem-scala</artifactId>
             <version>0.1.4</version>
         </dependency>
+        <dependency>
+            <groupId>org.languagetool</groupId>
+            <artifactId>language-ru</artifactId>
+            <version>4.0</version>
+        </dependency>
     </dependencies>
 
     <build>

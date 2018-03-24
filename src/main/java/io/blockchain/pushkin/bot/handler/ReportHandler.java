@@ -13,7 +13,8 @@ public class ReportHandler implements Handler {
     private static final String PATTERN =
             "Ваш словарный запас: {1} слов\n" +
             "Ваша оценка: {2} попугаев\n" +
-            "Всего проанализировано {0} слов";
+            "Всего проанализировано {0} слов\n" +
+            "Частота ошибок: {3}%";
 
     private ReportService reportService;
 
@@ -25,6 +26,6 @@ public class ReportHandler implements Handler {
     @Override
     public String handle(Message message) {
         Report report = reportService.buildUserReport(message.from().id());
-        return MessageFormat.format(PATTERN, report.getTotalWords(), report.getUniqueWords(), 1000d/report.getRating());
+        return MessageFormat.format(PATTERN, report.getTotalWords(), report.getUniqueWords(), 1000d/report.getRating(), report.getErrorFrequency());
     }
 }
