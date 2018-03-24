@@ -26,15 +26,19 @@ public class PushkinBot {
     public void run(String botToken) {
         TelegramBot telegramBot = new TelegramBot(botToken);
         telegramBot.setUpdatesListener(updates -> {
-            updates.stream()
-                    .map(Update::message)
-                    .filter(Objects::nonNull)
-                    .peek(collectorService::handleMessage)
-                    .forEach(m -> {
-                        Handler handler = router.route(m);
-                        String response = handler.handle(m);
-                        telegramBot.execute(new SendMessage(m.chat().id(), response));
-                    });
+            try {
+                updates.stream()
+                        .map(Update::message)
+                        .filter(Objects::nonNull)
+                        .peek(collectorService::handleMessage)
+                        .forEach(m -> {
+                            Handler handler = router.route(m);
+                            String response = handler.handle(m);
+                            telegramBot.execute(new SendMessage(m.chat().id(), response));
+                        });
+            } catch (Exception e){
+                e.printStackTrace();
+            }
             return UpdatesListener.CONFIRMED_UPDATES_ALL;
         });
     }
