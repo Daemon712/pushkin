@@ -11,6 +11,6 @@ import java.util.Optional;
 public interface MessageEntityRepository extends CrudRepository<MessageEntity, MessagePK> {
     @Query("SELECT avg(me.literacy) " +
             "FROM MessageEntity me " +
-            "WHERE me.userId = :userID")
+            "WHERE me.user.userId = :userID")
     Optional<Double> averageLiteracy(@Param("userID") Integer userId);
 }

@@ -2,6 +2,7 @@ package io.blockchain.pushkin;
 
 import io.blockchain.pushkin.model.MessageEntity;
 import io.blockchain.pushkin.model.MessagePK;
+import io.blockchain.pushkin.model.TgUser;
 import io.blockchain.pushkin.repo.MessageEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,8 +43,8 @@ public class ChatLoader {
                 if (!line.contains("DELETED:") && matcher.find()) {
                     MessageEntity me = new MessageEntity();
                     me.setDate(formatter.parse(matcher.group(1)));
-                    me.setUserId(Integer.parseInt(matcher.group(2)));
-                    me.setMessagePK(new MessagePK(CHAT_ID, messId++));
+                    me.setUser(new TgUser(Integer.parseInt(matcher.group(2)), ""));
+                    me.setMessagePK(new MessagePK(CHAT_ID,messId++));
                     me.setText(matcher.group(3));
                     messageEntities.add(me);
                 }

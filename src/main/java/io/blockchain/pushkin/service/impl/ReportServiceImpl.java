@@ -38,7 +38,7 @@ public class ReportServiceImpl implements ReportService {
         Report report = new Report();
         report.setReportDateTime(LocalDateTime.now());
         report.setUniqueWords(wordUsageRepository.findDistinctWordByMessageUserId(userId).size());
-        report.setTotalWords(wordUsageRepository.countByMessageUserId(userId));
+        report.setTotalWords(wordUsageRepository.countByMessageUserUserId(userId));
         report.setRating(normalizeRating(wordUsageRepository.averageWordsRatingByMessageUserId(userId, MEANINGFUL_SPEECH_PARTS).orElse(0d)));
         report.setRating(wordUsageRepository.averageWordsRatingByMessageUserId(userId, MEANINGFUL_SPEECH_PARTS).orElse(0d));
         report.setLiteracy(messageEntityRepository.averageLiteracy(userId).orElse(0.0));

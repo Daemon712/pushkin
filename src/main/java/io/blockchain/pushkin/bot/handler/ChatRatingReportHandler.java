@@ -14,7 +14,7 @@ import java.util.stream.IntStream;
 public class ChatRatingReportHandler implements Handler {
     private static final String HEADER = "Рейтинг:\n";
     private static final String EMPTY_RESPONSE = "Нет данных для анализа :(";
-    private static final String LINE_PATTERN = "%d. [XXX](tg://user?id=%d) %.2f";
+    private static final String LINE_PATTERN = "%d. [%s](tg://user?id=%d) %.2f";
 
     private final ReportService reportService;
 
@@ -41,7 +41,13 @@ public class ChatRatingReportHandler implements Handler {
 
     private String formatLines(IntStream intStream, List<UserRating> userRatings) {
         return intStream
-                .mapToObj(i -> String.format(LINE_PATTERN, i + 1, userRatings.get(i).getUserId(), userRatings.get(i).getRating()))
+                .mapToObj(i -> {
+                    UserRating userRating = userRatings.get(i);
+                    return String.format(LINE_PATTERN, i + 1,
+                            userRating.getUser().getFullName(),
+                            userRating.getUser().getUserId(),
+                            userRating.getRating());
+                })
                 .collect(Collectors.joining("\n"));
 
     }

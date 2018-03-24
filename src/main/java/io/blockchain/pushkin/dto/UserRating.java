@@ -1,23 +1,25 @@
 package io.blockchain.pushkin.dto;
 
+import io.blockchain.pushkin.model.TgUser;
+
 public class UserRating {
-    private Integer userId;
+    private TgUser user;
     private Double rating;
 
     public UserRating() {
     }
 
-    public UserRating(Integer userId, Double rating) {
-        this.userId = userId;
+    public UserRating(TgUser user, Double rating) {
+        this.user = user;
         this.rating = rating;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public TgUser getUser() {
+        return user;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(TgUser userId) {
+        this.user = userId;
     }
 
     public Double getRating() {
