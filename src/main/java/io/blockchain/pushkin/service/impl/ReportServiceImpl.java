@@ -25,7 +25,9 @@ public class ReportServiceImpl implements ReportService {
     private final KeyWordService keyWordService;
 
     @Autowired
-    public ReportServiceImpl(WordUsageRepository wordUsageRepository, MessageEntityRepository messageEntityRepository, KeyWordService keyWordService) {
+    public ReportServiceImpl(WordUsageRepository wordUsageRepository,
+                             MessageEntityRepository messageEntityRepository,
+                             KeyWordService keyWordService) {
         this.wordUsageRepository = wordUsageRepository;
         this.messageEntityRepository = messageEntityRepository;
         this.keyWordService = keyWordService;
@@ -59,22 +61,21 @@ public class ReportServiceImpl implements ReportService {
             documents.put(d.getUserId(), userWords);
         });
         Map<Integer, Map<Word, Double>> tfidfMap = keyWordService.calcKeyWords(documents);
+
         //TODO implement Report building
         tfidfMap.forEach((k, v) -> {
             Map<Word, Double> wordDoubleMap = sortByValue(v);
-            int[] i = new int[]{0};
-
+            int[] top = new int[]{0};
             System.out.println("***************************************\n\n");
             System.out.println("TFIDF for " + k);
             wordDoubleMap.forEach((w, tf) -> {
-                if (i[0] > 10) {
+                if (top[0] > 10) {
                     return;
                 }
                 System.out.println("WORD " + w + " TFIDF: " + tf);
-                i[0] = i[0] + 1;
+                top[0] = top[0] + 1;
             });
         });
-        report.setRating(1.2);
         return report;
     }
 
@@ -96,7 +97,7 @@ public class ReportServiceImpl implements ReportService {
                 .collect(Collectors.toList());
     }
 
-    private Double normalizeRating(Double rating){
+    private Double normalizeRating(Double rating) {
         return 1000d / rating;
     }
 }

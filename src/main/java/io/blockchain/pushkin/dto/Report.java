@@ -55,9 +55,8 @@ public class Report {
     }
 
     public void setLiteracy(Double literacy) {
-        this.literacy= literacy;
+        this.literacy = literacy;
     }
-
 
     @Override
     public String toString() {

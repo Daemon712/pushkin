@@ -40,7 +40,9 @@ public class CollectorServiceImpl implements CollectorService {
 
         // Spell checking
         Double literacy = spellCheckerService.checkMessage(messageEntity.getText(), lemmas.size());
-        messageEntity.setLiteracy(literacy);
+        if (literacy != null) {
+            messageEntity.setLiteracy(literacy);
+        }
 
         messageEntityRepository.save(messageEntity);
 

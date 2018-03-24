@@ -43,28 +43,43 @@ public class LemmaServiceImpl implements LemmaService {
         }
     }
 
-    private SpeechPart parseSpeechPart(String myStemResponse){
+    private SpeechPart parseSpeechPart(String myStemResponse) {
         JSONObject responseObj = new JSONObject(myStemResponse);
         JSONArray analysis = responseObj.getJSONArray("analysis");
         if (analysis.length() == 0) return null;
         String grammar = analysis.getJSONObject(0).getString("gr");
         String speechPart = grammar.split("\\W")[0];
-        switch (speechPart){
-            case "A": return SpeechPart.adjective;
-            case "ADV":	return SpeechPart.adverb;
-            case "ADVPRO": return SpeechPart.pronominal_adverb;
-            case "ANUM": return SpeechPart.numeral_adjective;
-            case "APRO": return SpeechPart.pronoun_adjective;
-            case "COM": return SpeechPart.composite_part;
-            case "CONJ": return SpeechPart.conjunction;
-            case "INTJ": return SpeechPart.interjection;
-            case "NUM": return SpeechPart.numeral;
-            case "PART": return SpeechPart.particle;
-            case "PR": return SpeechPart.pretext;
-            case "S": return SpeechPart.noun;
-            case "SPRO": return SpeechPart.pronoun_noun;
-            case "V": return SpeechPart.verb;
-            default: return null;
+        switch (speechPart) {
+            case "A":
+                return SpeechPart.adjective;
+            case "ADV":
+                return SpeechPart.adverb;
+            case "ADVPRO":
+                return SpeechPart.pronominal_adverb;
+            case "ANUM":
+                return SpeechPart.numeral_adjective;
+            case "APRO":
+                return SpeechPart.pronoun_adjective;
+            case "COM":
+                return SpeechPart.composite_part;
+            case "CONJ":
+                return SpeechPart.conjunction;
+            case "INTJ":
+                return SpeechPart.interjection;
+            case "NUM":
+                return SpeechPart.numeral;
+            case "PART":
+                return SpeechPart.particle;
+            case "PR":
+                return SpeechPart.pretext;
+            case "S":
+                return SpeechPart.noun;
+            case "SPRO":
+                return SpeechPart.pronoun_noun;
+            case "V":
+                return SpeechPart.verb;
+            default:
+                return null;
         }
     }
 }

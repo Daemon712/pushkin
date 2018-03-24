@@ -12,7 +12,6 @@ public class MessagePK implements Serializable {
     @Column
     private int messageId;
 
-
     public MessagePK() {
     }
 

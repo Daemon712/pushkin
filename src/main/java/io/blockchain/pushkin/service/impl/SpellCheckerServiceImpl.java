@@ -8,12 +8,10 @@ import org.languagetool.rules.RuleMatch;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class SpellCheckerServiceImpl implements SpellCheckerService {
-
     private static final Language language;
 
     static {
@@ -23,11 +21,9 @@ public class SpellCheckerServiceImpl implements SpellCheckerService {
     @Override
     public Double checkMessage(String message, int amountOfWords) {
         if (amountOfWords == 0) {
-            return 100.0;
+            return null;
         } else {
             JLanguageTool langTool = new JLanguageTool(language);
-
-            List<String> strings = new ArrayList<>();
             try {
                 List<RuleMatch> matches = langTool.check(message);
                 for (RuleMatch match : matches) {
@@ -37,7 +33,7 @@ public class SpellCheckerServiceImpl implements SpellCheckerService {
                 return (1 - matches.size() / amountOfWords) * 100.0;
             } catch (IOException e) {
                 e.printStackTrace();
-                return 100.0;
+                return null;
             }
         }
     }

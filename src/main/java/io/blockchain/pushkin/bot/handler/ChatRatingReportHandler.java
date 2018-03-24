@@ -16,7 +16,7 @@ public class ChatRatingReportHandler implements Handler {
     private static final String EMPTY_RESPONSE = "Нет данных для анализа :(";
     private static final String LINE_PATTERN = "%d. [XXX](tg://user?id=%d) %.2f";
 
-    private ReportService reportService;
+    private final ReportService reportService;
 
     @Autowired
     public ChatRatingReportHandler(ReportService reportService) {
@@ -27,8 +27,8 @@ public class ChatRatingReportHandler implements Handler {
     public String handle(Message message) {
         List<UserRating> userRatings = reportService.buildChatRatingReport(message.chat().id());
         int size = userRatings.size();
-        if (size == 0){
-          return EMPTY_RESPONSE;
+        if (size == 0) {
+            return EMPTY_RESPONSE;
         } else if (size <= 7) {
             return HEADER + formatLines(IntStream.range(0, size), userRatings);
         } else {
