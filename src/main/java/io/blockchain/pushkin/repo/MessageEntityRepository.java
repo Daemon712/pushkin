@@ -10,8 +10,8 @@ import java.util.Optional;
 
 public interface MessageEntityRepository extends CrudRepository<MessageEntity, MessagePK> {
 
-    @Query("SELECT round(avg(me.errorFrequency),2) " +
+    @Query("SELECT (1-round(avg(me.errorFrequency),2))*100 " +
             "FROM MessageEntity me " +
             "WHERE me.userId = :userID")
-    Optional<Double> averageErrorFrequency(@Param("userID") Integer userId);
+    Optional<Double> averageLiteracy(@Param("userID") Integer userId);
 }
