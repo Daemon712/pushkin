@@ -6,13 +6,11 @@ import io.blockchain.pushkin.repo.MessageEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.io.*;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,7 +19,7 @@ import java.util.regex.Pattern;
 public class ChatLoader {
     private MessageEntityRepository messageEntityRepository;
 
-    @PostConstruct
+    // @PostConstruct
     public void loadMessages() {
         List<MessageEntity> messageEntities=new ArrayList<>();
         int messId=1;
