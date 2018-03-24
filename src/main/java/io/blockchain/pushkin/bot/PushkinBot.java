@@ -15,8 +15,8 @@ import java.util.Objects;
 
 @Component
 public class PushkinBot {
-    private Router router;
-    private CollectorService collectorService;
+    private final Router router;
+    private final CollectorService collectorService;
 
     @Autowired
     public PushkinBot(Router router, CollectorService collectorService) {
@@ -37,7 +37,7 @@ public class PushkinBot {
                             String response = handler.handle(m);
                             telegramBot.execute(new SendMessage(m.chat().id(), response).parseMode(ParseMode.Markdown));
                         });
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return UpdatesListener.CONFIRMED_UPDATES_ALL;
