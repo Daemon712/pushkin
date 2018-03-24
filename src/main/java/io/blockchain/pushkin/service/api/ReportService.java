@@ -4,4 +4,6 @@ import io.blockchain.pushkin.dto.Report;
 
 public interface ReportService {
     Report buildUserReport(Integer userId);
+
+    Report buildChatReport(Long chatId);
 }
