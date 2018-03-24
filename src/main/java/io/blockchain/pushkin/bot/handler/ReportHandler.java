@@ -14,7 +14,7 @@ public class ReportHandler implements Handler {
             "Ваш словарный запас: {1} слов\n" +
             "Ваша оценка: {2} попугаев\n" +
             "Всего проанализировано {0} слов\n" +
-            "Частота ошибок: {3}%";
+            "Грамотность: {3}%";
 
     private ReportService reportService;
 
