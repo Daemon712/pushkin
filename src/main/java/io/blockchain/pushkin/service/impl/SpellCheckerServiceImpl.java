@@ -27,7 +27,6 @@ public class SpellCheckerServiceImpl implements SpellCheckerService {
         } else {
             JLanguageTool langTool = new JLanguageTool(language);
 
-            List<String> strings = new ArrayList<>();
             try {
                 List<RuleMatch> matches = langTool.check(message);
                 for (RuleMatch match : matches) {
