@@ -1,5 +1,6 @@
 package io.blockchain.pushkin.repo;
 
+import io.blockchain.pushkin.dto.Document;
 import io.blockchain.pushkin.model.SpeechPart;
 import io.blockchain.pushkin.model.Word;
 import io.blockchain.pushkin.model.WordUsage;
@@ -17,10 +18,14 @@ public interface WordUsageRepository extends CrudRepository<WordUsage, WordUsage
     @Query("SELECT distinct wu.word FROM WordUsage wu where wu.message.userId = :userID")
     List<Word> findDistinctWordByMessageUserId(@Param("userID") Integer userId);
 
+    @Query("SELECT new io.blockchain.pushkin.dto.Document(wu.message.userId, wu.word) " +
+            "FROM WordUsage wu where wu.message.messagePK.chatId = :chatId")
+    List<Document> findDocumentsByChatId(@Param("chatId") Long chatId);
+
     @Query("SELECT avg(gd.rate) " +
             "FROM WordUsage wu " +
             "JOIN GlobalDict gd ON wu.word = gd.word " +
             "WHERE wu.message.userId = :userID" +
             " AND wu.word.speechPart in (:speechParts)")
-    Optional<Double> averageWordsRatingByMessageUserId(@Param("userID") Integer userId, @Param("speechParts")List<SpeechPart> speechParts);
+    Optional<Double> averageWordsRatingByMessageUserId(@Param("userID") Integer userId, @Param("speechParts") List<SpeechPart> speechParts);
 }
