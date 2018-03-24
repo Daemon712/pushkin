@@ -1,6 +1,8 @@
 package io.blockchain.pushkin.service.impl;
 
+import io.blockchain.pushkin.dto.Document;
 import io.blockchain.pushkin.dto.Report;
+import io.blockchain.pushkin.dto.UserRating;
 import io.blockchain.pushkin.model.SpeechPart;
 import io.blockchain.pushkin.model.Word;
 import io.blockchain.pushkin.repo.MessageEntityRepository;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ReportServiceImpl implements ReportService {
@@ -93,17 +96,7 @@ public class ReportServiceImpl implements ReportService {
                 .collect(Collectors.toList());
     }
 
-    @Autowired
-    public void setWordUsageRepository(WordUsageRepository wordUsageRepository) {
-        this.wordUsageRepository = wordUsageRepository;
-    }
-
     private Double normalizeRating(Double rating){
         return 1000d / rating;
-    }
-
-    @Autowired
-    public void setMessageEntityRepository(MessageEntityRepository messageEntityRepository) {
-        this.messageEntityRepository = messageEntityRepository;
     }
 }
