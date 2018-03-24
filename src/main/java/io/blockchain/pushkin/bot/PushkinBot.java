@@ -36,7 +36,7 @@ public class PushkinBot {
                             String response = handler.handle(m);
                             telegramBot.execute(new SendMessage(m.chat().id(), response));
                         });
-            } catch (Exception e) {
+            } catch (Exception e){
                 e.printStackTrace();
             }
             return UpdatesListener.CONFIRMED_UPDATES_ALL;
