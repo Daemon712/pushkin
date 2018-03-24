@@ -18,7 +18,7 @@ public class MessageEntity {
     @Column
     private Date date;
 
-    @Column
+    @Column(length = 4096)
     private String text;
 
     @Column

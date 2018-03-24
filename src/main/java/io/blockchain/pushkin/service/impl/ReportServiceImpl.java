@@ -1,6 +1,7 @@
 package io.blockchain.pushkin.service.impl;
 
 import io.blockchain.pushkin.dto.Report;
+import io.blockchain.pushkin.dto.UserRating;
 import io.blockchain.pushkin.model.SpeechPart;
 import io.blockchain.pushkin.repo.MessageEntityRepository;
 import io.blockchain.pushkin.repo.WordUsageRepository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ReportServiceImpl implements ReportService {
@@ -24,14 +26,27 @@ public class ReportServiceImpl implements ReportService {
         report.setReportDateTime(LocalDateTime.now());
         report.setUniqueWords(wordUsageRepository.findDistinctWordByMessageUserId(userId).size());
         report.setTotalWords(wordUsageRepository.countByMessageUserId(userId));
+        report.setRating(normalizeRating(wordUsageRepository.averageWordsRatingByMessageUserId(userId, MEANINGFUL_SPEECH_PARTS).orElse(0d)));
         report.setRating(wordUsageRepository.averageWordsRatingByMessageUserId(userId, MEANINGFUL_SPEECH_PARTS).orElse(0d));
         report.setErrorFrequency(messageEntityRepository.averageLiteracy(userId).orElse(0.0));
         return report;
     }
 
+    @Override
+    public List<UserRating> buildChatRatingReport(Long chatId) {
+        return wordUsageRepository.calcUserRatingByChat(chatId, MEANINGFUL_SPEECH_PARTS)
+                .stream()
+                .peek(ur -> ur.setRating(normalizeRating(ur.getRating())))
+                .collect(Collectors.toList());
+    }
+
     @Autowired
     public void setWordUsageRepository(WordUsageRepository wordUsageRepository) {
         this.wordUsageRepository = wordUsageRepository;
+    }
+
+    private Double normalizeRating(Double rating){
+        return 1000d / rating;
     }
 
     @Autowired
