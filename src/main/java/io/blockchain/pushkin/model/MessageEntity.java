@@ -21,6 +21,9 @@ public class MessageEntity {
     @Column
     private String text;
 
+    @Column
+    private Double errorFrequency;
+
     public MessagePK getMessagePK() {
         return messagePK;
     }
@@ -51,5 +54,13 @@ public class MessageEntity {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public Double getErrorFrequency() {
+        return errorFrequency;
+    }
+
+    public void setErrorFrequency(Double errorFrequency) {
+        this.errorFrequency = errorFrequency;
     }
 }

@@ -8,6 +8,7 @@ public class Report {
     private Integer uniqueWords;
     private Integer totalWords;
     private Double rating;
+    private Double errorFrequency;
 
     public String getContent() {
         return content;
@@ -48,6 +49,15 @@ public class Report {
     public void setRating(Double rating) {
         this.rating = rating;
     }
+
+    public Double getErrorFrequency() {
+        return errorFrequency;
+    }
+
+    public void setErrorFrequency(Double errorFrequency) {
+        this.errorFrequency = errorFrequency;
+    }
+
 
     @Override
     public String toString() {
