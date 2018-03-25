@@ -44,7 +44,7 @@ public class ChatLiteracyReportHandler implements Handler {
                 .mapToObj(i -> {
                     UserRating userRating = userRatings.get(i);
                     return String.format(LINE_PATTERN, i + 1,
-                            userRating.getUser().getFullName(),
+                            String.valueOf(userRating.getUser().getFullName()),
                             userRating.getUser().getUserId(),
                             userRating.getRating());
                 })

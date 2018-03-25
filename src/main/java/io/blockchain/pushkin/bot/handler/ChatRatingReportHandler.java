@@ -12,7 +12,7 @@ import java.util.stream.IntStream;
 
 @Component("chatRatingReportHandler")
 public class ChatRatingReportHandler implements Handler {
-    private static final String HEADER = "Рейтинг:\n";
+    private static final String HEADER = "Рейтинг словарных запасов:\n";
     private static final String EMPTY_RESPONSE = "Нет данных для анализа :(";
     private static final String LINE_PATTERN = "%d. [%s](tg://user?id=%d) %.2f";
 
@@ -44,7 +44,7 @@ public class ChatRatingReportHandler implements Handler {
                 .mapToObj(i -> {
                     UserRating userRating = userRatings.get(i);
                     return String.format(LINE_PATTERN, i + 1,
-                            userRating.getUser().getFullName(),
+                            String.valueOf(userRating.getUser().getFullName()),
                             userRating.getUser().getUserId(),
                             userRating.getRating());
                 })

@@ -39,8 +39,7 @@ public class ReportServiceImpl implements ReportService {
         report.setReportDateTime(LocalDateTime.now());
         report.setUniqueWords(wordUsageRepository.findDistinctWordByMessageUserId(userId).size());
         report.setTotalWords(wordUsageRepository.countByMessageUserUserId(userId));
-        report.setRating(normalizeRating(wordUsageRepository.averageWordsRatingByMessageUserId(userId, MEANINGFUL_SPEECH_PARTS).orElse(0d)));
-        report.setRating(wordUsageRepository.averageWordsRatingByMessageUserId(userId, MEANINGFUL_SPEECH_PARTS).orElse(0d));
+        report.setRating(normalizeRating(wordUsageRepository.averageWordsRatingByMessageUserId(userId).orElse(0d)));
         report.setLiteracy(messageEntityRepository.averageLiteracy(userId).orElse(0.0));
         return report;
     }
@@ -91,9 +90,21 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public List<UserRating> buildChatRatingReport(Long chatId) {
-        return wordUsageRepository.calcUserRatingByChat(chatId, MEANINGFUL_SPEECH_PARTS)
+        return messageEntityRepository.findActiveChatUsers(chatId)
                 .stream()
-                .peek(ur -> ur.setRating(normalizeRating(ur.getRating())))
+                .map(user -> {
+                    List<Integer> messages = messageEntityRepository.find100LastMessages(chatId, user.getUserId());
+                    Double rating = wordUsageRepository.findWordUsagesRating(chatId, messages)
+                            .stream()
+                            .limit(15)
+                            .mapToDouble(Double::doubleValue)
+                            .sorted()
+                            .average()
+                            .orElse(0);
+
+                    return new UserRating(user, normalizeRating(rating));
+                })
+                .sorted(Comparator.comparing(UserRating::getRating).reversed())
                 .collect(Collectors.toList());
     }
 
@@ -103,6 +114,6 @@ public class ReportServiceImpl implements ReportService {
     }
 
     private Double normalizeRating(Double rating) {
-        return 1000d / rating;
+        return 10 / (1 + Math.exp(-1 / rating));
     }
 }
