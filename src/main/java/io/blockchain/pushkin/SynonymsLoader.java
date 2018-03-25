@@ -25,9 +25,11 @@ public class SynonymsLoader {
 
     @PostConstruct
     public void load() {
+        if (wordSynonymRepository.count() > 0) {
+            return;
+        }
         File file = new File(getClass().getClassLoader().getResource("syn.txt").getFile());
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            wordSynonymRepository.deleteAll();
             String line;
             List<WordSynonym> lst = new ArrayList<>(20_000);
             while ((line = reader.readLine()) != null) {
