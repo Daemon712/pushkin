@@ -2,10 +2,7 @@ package io.blockchain.pushkin;
 
 import io.blockchain.pushkin.model.WordSynonym;
 import io.blockchain.pushkin.repo.WordSynonymRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -14,16 +11,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Component
+//TODO need to remove duplicates from syn.txt
 public class SynonymsLoader {
     private final WordSynonymRepository wordSynonymRepository;
 
-    @Autowired
+    //    @Autowired
     public SynonymsLoader(WordSynonymRepository wordSynonymRepository) {
         this.wordSynonymRepository = wordSynonymRepository;
     }
 
-    @PostConstruct
+    //    @PostConstruct
     public void load() {
         if (wordSynonymRepository.count() > 0) {
             return;
