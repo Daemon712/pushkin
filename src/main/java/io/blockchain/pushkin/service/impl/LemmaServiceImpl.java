@@ -16,7 +16,6 @@ import scala.collection.JavaConversions;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,7 +35,6 @@ public class LemmaServiceImpl implements LemmaService {
             return report.stream()
                     .filter(info -> info.lex().isDefined())
                     .map(info -> new Word(info.lex().get(), parseSpeechPart(info.rawResponse())))
-                    .filter(Objects::nonNull)
                     .collect(Collectors.toList());
         } catch (MyStemApplicationException e) {
             throw new RuntimeException(e);

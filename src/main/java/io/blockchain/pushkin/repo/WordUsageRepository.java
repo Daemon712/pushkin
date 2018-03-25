@@ -53,12 +53,5 @@ public interface WordUsageRepository extends CrudRepository<WordUsage, WordUsage
             "ORDER BY avg(gd.rate)")
     List<UserRating> calcUserRatingByChat(@Param("chatId") Long chatId, @Param("speechParts") List<SpeechPart> speechParts);
 
-//    @Query("SELECT wu.word " +
-//            "FROM WordUsage wu " +
-//            "JOIN GlobalDict gd ON wu.word = gd.word " +
-//            "WHERE wu.message.user.userId = :userID " +
-//            "ORDER BY gd.rate desc")
-//    List<Word> calcTopAnomalyWords(@Param("userID") Integer userId);
-
     List<WordUsage> findWordUsagesByMessage(MessageEntity message);
 }

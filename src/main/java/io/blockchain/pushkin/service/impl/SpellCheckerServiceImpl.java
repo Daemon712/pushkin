@@ -28,13 +28,7 @@ public class SpellCheckerServiceImpl implements SpellCheckerService {
             langTool.disableCategory(new CategoryId("CASING"));
             try {
                 List<RuleMatch> matches = langTool.check(message);
-                for (RuleMatch match : matches) {
-                    System.out.println("Error detected from pos: " + match.getFromPos()
-                            + "\nReplacements: " + match.getSuggestedReplacements());
-                }
-                Double result = (1 - (matches.size() / amountOfWords)) * 100.0;
-                System.out.println("Literacy correction: " + result);
-                return result;
+                return (1 - (matches.size() / amountOfWords)) * 100.0;
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;

@@ -1,7 +1,10 @@
 package io.blockchain.pushkin.service.impl;
 
 import io.blockchain.pushkin.dto.Advice;
-import io.blockchain.pushkin.model.*;
+import io.blockchain.pushkin.model.MessageEntity;
+import io.blockchain.pushkin.model.SpeechPart;
+import io.blockchain.pushkin.model.Word;
+import io.blockchain.pushkin.model.WordUsage;
 import io.blockchain.pushkin.repo.GlobalDictRepository;
 import io.blockchain.pushkin.repo.MessageEntityRepository;
 import io.blockchain.pushkin.repo.WordUsageRepository;
@@ -11,7 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class AdviceHandlerImpl implements AdviceService {
@@ -34,19 +40,19 @@ public class AdviceHandlerImpl implements AdviceService {
     @Override
     public Advice getAdvice(Integer userId) {
         Advice advice = new Advice();
-        List<MessageEntity> lst = messageEntityRepository.findTop200ByUserUserIdOrderByDateDesc(userId);
+        List<MessageEntity> lst = messageEntityRepository.findTop70ByUserUserIdOrderByDateDesc(userId);
         List<Word> words = getTotalWords(lst);
-        Map<Word, Integer> freq = calcWordFrequencies(words);
-        freq.forEach((k, v) -> {
-            // if freq > 5%
-            if (v > words.size() * 0.1) {
-                advice.addRecommendation(buildRecommendation(k));
+        Map<Word, Integer> frequencies = calcWordFrequencies(words);
+        frequencies.forEach((word, freq) -> {
+            // if frequency > 10%
+            if (freq > words.size() * 0.1) {
+                advice.addRecommendation(buildRecommendation(word));
             }
             //TODO add checking with global dict
-            Optional<GlobalDict> byId = globalDictRepository.findById(k);
+//            Optional<GlobalDict> byId = globalDictRepository.findById(word);
 //            if (byId.isPresent()) {
 //                Double rate = byId.get().getRate();
-//                System.out.println("For Word " + k.getWord() + " ABS FREQ=" + v + " Rate=" + rate);
+//                System.out.println("For Word " + word.getWord() + " ABS FREQ=" + freq + " Rate=" + rate);
 //            }
         });
         if (advice.isEmpty()) {

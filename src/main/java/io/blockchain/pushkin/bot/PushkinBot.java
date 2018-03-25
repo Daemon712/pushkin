@@ -34,8 +34,10 @@ public class PushkinBot {
                         .peek(collectorService::handleMessage)
                         .forEach(m -> {
                             Handler handler = router.route(m);
-                            String response = handler.handle(m);
-                            telegramBot.execute(new SendMessage(m.chat().id(), response).parseMode(ParseMode.Markdown));
+                            if (handler != null) {
+                                String response = handler.handle(m);
+                                telegramBot.execute(new SendMessage(m.chat().id(), response).parseMode(ParseMode.Markdown));
+                            }
                         });
             } catch (Exception e) {
                 e.printStackTrace();

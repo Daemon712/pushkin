@@ -44,6 +44,7 @@ public class Router {
      * @return handler
      */
     public Handler route(Message message) {
+        //TODO replace to Optional
         String text = message.text();
         if (text != null) {
             if (Chat.Type.Private.equals(message.chat().type())) {
@@ -57,7 +58,7 @@ public class Router {
                 }
             }
         }
-        return noneHandler;
+        return null;
     }
 
     private Handler handleText(String text) {
@@ -74,6 +75,6 @@ public class Router {
         } else if (text.startsWith("/explain")) {
             return explainWordHandler;
         }
-        return noneHandler;
+        return null;
     }
 }
