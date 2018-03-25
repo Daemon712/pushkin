@@ -14,6 +14,7 @@ public class Router {
     private String botName;
     private final Handler noneHandler;
     private final Handler startHandler;
+    private final Handler explainWordHandler;
     private final Handler userReportHandler;
     private final Handler chatRatingReportHandler;
     private final Handler chatLiteracyReportHandler;
@@ -22,6 +23,7 @@ public class Router {
     @Autowired
     public Router(@Qualifier("noneHandler") Handler noneHandler,
                   @Qualifier("startHandler") Handler startHandler,
+                  @Qualifier("explainWordHandler") Handler explainWordHandler,
                   @Qualifier("userReportHandler") Handler userReportHandler,
                   @Qualifier("chatRatingReportHandler") Handler chatRatingReportHandler,
                   @Qualifier("chatLiteracyReportHandler") Handler chatLiteracyReportHandler,
@@ -32,6 +34,7 @@ public class Router {
         this.chatRatingReportHandler = chatRatingReportHandler;
         this.chatLiteracyReportHandler = chatLiteracyReportHandler;
         this.adviceHandler = adviceHandler;
+        this.explainWordHandler = explainWordHandler;
     }
 
     /**
@@ -46,7 +49,8 @@ public class Router {
             if (Chat.Type.Private.equals(message.chat().type())) {
                 return handleText(text);
             } else {
-                if (!text.endsWith(botName)) {
+                String command = text.split(" ")[0];
+                if (!command.endsWith(botName)) {
                     return noneHandler;
                 } else {
                     return handleText(text);
@@ -67,6 +71,8 @@ public class Router {
             return chatLiteracyReportHandler;
         } else if (text.startsWith("/advice")) {
             return adviceHandler;
+        } else if (text.startsWith("/explain")) {
+            return explainWordHandler;
         }
         return noneHandler;
     }
