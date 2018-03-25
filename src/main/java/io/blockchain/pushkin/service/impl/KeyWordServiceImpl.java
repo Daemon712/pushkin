@@ -13,6 +13,9 @@ public class KeyWordServiceImpl implements KeyWordService {
 
     /**
      * TF-IDF
+     *
+     * @param documents input documents
+     * @return map of {UserID - {Word - TF-IDF}}
      */
     @Override
     public Map<Integer, Map<Word, Double>> calcKeyWords(Map<Integer, List<Word>> documents) {

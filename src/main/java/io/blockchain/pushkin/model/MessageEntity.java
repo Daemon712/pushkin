@@ -60,4 +60,15 @@ public class MessageEntity {
     public void setLiteracy(Double literacy) {
         this.literacy = literacy;
     }
+
+    @Override
+    public String toString() {
+        return "MessageEntity{" +
+                "messagePK=" + messagePK +
+                ", user=" + user +
+                ", date=" + date +
+                ", text='" + text + '\'' +
+                ", literacy=" + literacy +
+                '}';
+    }
 }

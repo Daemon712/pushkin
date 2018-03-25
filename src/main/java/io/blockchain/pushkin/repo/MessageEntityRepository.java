@@ -25,4 +25,6 @@ public interface MessageEntityRepository extends CrudRepository<MessageEntity, M
             "GROUP BY me.user.userId " +
             "ORDER BY avg(me.literacy)")
     List<UserRating> calcUserLiteracyByChat(@Param("chatId") Long chatId);
+
+    List<MessageEntity> findTop200ByUserUserIdOrderByDateDesc(@Param("userID") Integer userId);
 }
