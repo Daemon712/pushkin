@@ -17,18 +17,21 @@ public class Router {
     private final Handler userReportHandler;
     private final Handler chatRatingReportHandler;
     private final Handler chatLiteracyReportHandler;
+    private final Handler adviceHandler;
 
     @Autowired
     public Router(@Qualifier("noneHandler") Handler noneHandler,
                   @Qualifier("startHandler") Handler startHandler,
                   @Qualifier("userReportHandler") Handler userReportHandler,
                   @Qualifier("chatRatingReportHandler") Handler chatRatingReportHandler,
-                  @Qualifier("chatLiteracyReportHandler") Handler chatLiteracyReportHandler) {
+                  @Qualifier("chatLiteracyReportHandler") Handler chatLiteracyReportHandler,
+                  @Qualifier("adviceHandler") Handler adviceHandler) {
         this.noneHandler = noneHandler;
         this.startHandler = startHandler;
         this.userReportHandler = userReportHandler;
         this.chatRatingReportHandler = chatRatingReportHandler;
         this.chatLiteracyReportHandler = chatLiteracyReportHandler;
+        this.adviceHandler = adviceHandler;
     }
 
     /**
@@ -62,6 +65,8 @@ public class Router {
             return chatRatingReportHandler;
         } else if (text.startsWith("/chat_lit_stats")) {
             return chatLiteracyReportHandler;
+        } else if (text.startsWith("/advice")) {
+            return adviceHandler;
         }
         return noneHandler;
     }

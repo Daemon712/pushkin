@@ -2,10 +2,7 @@ package io.blockchain.pushkin.repo;
 
 import io.blockchain.pushkin.dto.Document;
 import io.blockchain.pushkin.dto.UserRating;
-import io.blockchain.pushkin.model.SpeechPart;
-import io.blockchain.pushkin.model.Word;
-import io.blockchain.pushkin.model.WordUsage;
-import io.blockchain.pushkin.model.WordUsagePK;
+import io.blockchain.pushkin.model.*;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -39,4 +36,13 @@ public interface WordUsageRepository extends CrudRepository<WordUsage, WordUsage
             "GROUP BY wu.message.user.userId " +
             "ORDER BY avg(gd.rate)")
     List<UserRating> calcUserRatingByChat(@Param("chatId") Long chatId, @Param("speechParts") List<SpeechPart> speechParts);
+
+//    @Query("SELECT wu.word " +
+//            "FROM WordUsage wu " +
+//            "JOIN GlobalDict gd ON wu.word = gd.word " +
+//            "WHERE wu.message.user.userId = :userID " +
+//            "ORDER BY gd.rate desc")
+//    List<Word> calcTopAnomalyWords(@Param("userID") Integer userId);
+
+    List<WordUsage> findWordUsagesByMessage(MessageEntity message);
 }
