@@ -45,7 +45,7 @@ public class ChatLoader {
         this.wordUsageRepository = wordUsageRepository;
     }
 
-    // @PostConstruct
+    //@PostConstruct
     public void loadMessages() {
         loadHMessages();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
@@ -62,7 +62,7 @@ public class ChatLoader {
                         int userId = Integer.parseInt(matcher.group(5));
                         int messageId = Integer.parseInt(matcher.group(2));
                         MessageEntity messageEntity = new MessageEntity();
-                        MessagePK messagePK = new MessagePK(-1001038770422l, messageId);
+                        MessagePK messagePK = new MessagePK(Long.parseLong(matcher.group(1)), messageId);
                         messageEntity.setMessagePK(messagePK);
 
 

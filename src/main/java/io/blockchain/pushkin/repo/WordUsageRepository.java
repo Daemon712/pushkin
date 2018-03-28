@@ -8,7 +8,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Optional;
 
 @SuppressWarnings("SpringDataRepositoryMethodReturnTypeInspection")
 public interface WordUsageRepository extends CrudRepository<WordUsage, WordUsagePK> {
@@ -20,18 +19,18 @@ public interface WordUsageRepository extends CrudRepository<WordUsage, WordUsage
     @Query("SELECT new io.blockchain.pushkin.dto.Document(wu.message.user.userId, wu.word) " +
             "FROM WordUsage wu where wu.message.messagePK.chatId = :chatId")
     List<Document> findDocumentsByChatId(@Param("chatId") Long chatId);
-
-    @Query(nativeQuery = true,
-            value = "SELECT avg(gd.rate) " +
-                    "FROM word_usage wu " +
-                    "JOIN message_entity me " +
-                    "ON me.chat_id = wu.chat_id AND me.message_id = me.message_id " +
-                    "JOIN global_dict gd " +
-                    "ON wu.word = gd.word AND wu.speech_part = gd.speech_part " +
-                    "WHERE me.user_user_id = :userID " +
-                    "ORDER BY avg(gd.rate) ASC " +
-                    "LIMIT 25")
-    Optional<Double> averageWordsRatingByMessageUserId(@Param("userID") Integer userId);
+//
+//    @Query(nativeQuery = true,
+//            value = "SELECT avg(gd.rate) " +
+//                    "FROM word_usage wu " +
+//                    "JOIN message_entity me " +
+//                    "ON me.chat_id = wu.chat_id AND me.message_id = me.message_id " +
+//                    "JOIN global_dict gd " +
+//                    "ON wu.word = gd.word AND wu.speech_part = gd.speech_part " +
+//                    "WHERE me.user_user_id = :userID " +
+//                    "ORDER BY avg(gd.rate) ASC " +
+//                    "LIMIT 25")
+//    Optional<Double> averageWordsRatingByMessageUserId(@Param("userID") Integer userId);
 
 
     @Query(nativeQuery = true,

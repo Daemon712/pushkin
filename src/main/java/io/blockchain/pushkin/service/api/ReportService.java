@@ -6,7 +6,7 @@ import io.blockchain.pushkin.dto.UserRating;
 import java.util.List;
 
 public interface ReportService {
-    Report buildUserReport(Integer userId);
+    Report buildUserReport(Long chatId, Integer userId);
 
     List<UserRating> buildChatRatingReport(Long chatId);
 

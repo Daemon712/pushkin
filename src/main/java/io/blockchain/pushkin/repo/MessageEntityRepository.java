@@ -24,7 +24,8 @@ public interface MessageEntityRepository extends CrudRepository<MessageEntity, M
             "WHERE me.messagePK.chatId = :chatId " +
             "AND me.literacy IS NOT NULL " +
             "GROUP BY me.user.userId " +
-            "ORDER BY avg(me.literacy)")
+            "HAVING count(*) > 7 " +
+            "ORDER BY avg(me.literacy) DESC")
     List<UserRating> calcUserLiteracyByChat(@Param("chatId") Long chatId);
 
     List<MessageEntity> findTop70ByUserUserIdOrderByDateDesc(@Param("userID") Integer userId);

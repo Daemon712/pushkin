@@ -52,7 +52,7 @@ public class Router {
             } else {
                 String command = text.split(" ")[0];
                 if (!command.endsWith(botName)) {
-                    return noneHandler;
+                    return null;
                 } else {
                     return handleText(text);
                 }
@@ -64,11 +64,11 @@ public class Router {
     private Handler handleText(String text) {
         if (text.startsWith("/start")) {
             return startHandler;
-        } else if (text.startsWith("/my_stats")) {
+        } else if (text.startsWith("/stats")) {
             return userReportHandler;
-        } else if (text.startsWith("/chat_lex_stats")) {
+        } else if (text.startsWith("/lexicon")) {
             return chatRatingReportHandler;
-        } else if (text.startsWith("/chat_lit_stats")) {
+        } else if (text.startsWith("/grammar")) {
             return chatLiteracyReportHandler;
         } else if (text.startsWith("/advice")) {
             return adviceHandler;

@@ -11,8 +11,8 @@ import java.text.MessageFormat;
 @Component("userReportHandler")
 public class UserReportHandler implements Handler {
     private static final String PATTERN = "Ваш словарный запас: {1} слов\n" +
-            "Ваша оценка: {2,number,#.##} попугаев\n" +
             "Всего проанализировано {0} слов\n" +
+            "Ваша оценка: {2,number,#.##}\n" +
             "Грамотность: {3,number,#.##}%";
 
     private final ReportService reportService;
@@ -24,7 +24,7 @@ public class UserReportHandler implements Handler {
 
     @Override
     public String handle(Message message) {
-        Report report = reportService.buildUserReport(message.from().id());
+        Report report = reportService.buildUserReport(message.chat().id(), message.from().id());
         return MessageFormat.format(PATTERN, report.getTotalWords(), report.getUniqueWords(), report.getRating(), report.getLiteracy());
     }
 }

@@ -4,11 +4,13 @@ import io.blockchain.pushkin.dto.Document;
 import io.blockchain.pushkin.dto.Report;
 import io.blockchain.pushkin.dto.UserRating;
 import io.blockchain.pushkin.model.SpeechPart;
+import io.blockchain.pushkin.model.TgUser;
 import io.blockchain.pushkin.model.Word;
 import io.blockchain.pushkin.repo.MessageEntityRepository;
 import io.blockchain.pushkin.repo.WordUsageRepository;
 import io.blockchain.pushkin.service.api.KeyWordService;
 import io.blockchain.pushkin.service.api.ReportService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,12 +36,12 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public Report buildUserReport(Integer userId) {
+    public Report buildUserReport(Long chatId, Integer userId) {
         Report report = new Report();
         report.setReportDateTime(LocalDateTime.now());
         report.setUniqueWords(wordUsageRepository.findDistinctWordByMessageUserId(userId).size());
         report.setTotalWords(wordUsageRepository.countByMessageUserUserId(userId));
-        report.setRating(normalizeRating(wordUsageRepository.averageWordsRatingByMessageUserId(userId).orElse(0d)));
+        report.setRating(getUserRating(chatId, new TgUser(userId, "")).getRating());
         report.setLiteracy(messageEntityRepository.averageLiteracy(userId).orElse(0.0));
         return report;
     }
@@ -92,20 +94,23 @@ public class ReportServiceImpl implements ReportService {
     public List<UserRating> buildChatRatingReport(Long chatId) {
         return messageEntityRepository.findActiveChatUsers(chatId)
                 .stream()
-                .map(user -> {
-                    List<Integer> messages = messageEntityRepository.find100LastMessages(chatId, user.getUserId());
-                    Double rating = wordUsageRepository.findWordUsagesRating(chatId, messages)
-                            .stream()
-                            .limit(15)
-                            .mapToDouble(Double::doubleValue)
-                            .sorted()
-                            .average()
-                            .orElse(0);
-
-                    return new UserRating(user, normalizeRating(rating));
-                })
+                .map(user -> getUserRating(chatId, user))
                 .sorted(Comparator.comparing(UserRating::getRating).reversed())
                 .collect(Collectors.toList());
+    }
+
+    @NotNull
+    private UserRating getUserRating(Long chatId, TgUser user) {
+        List<Integer> messages = messageEntityRepository.find100LastMessages(chatId, user.getUserId());
+        Double rating = wordUsageRepository.findWordUsagesRating(chatId, messages)
+                .stream()
+                .limit(15)
+                .mapToDouble(Double::doubleValue)
+                .sorted()
+                .average()
+                .orElse(0);
+
+        return new UserRating(user, normalizeRating(rating));
     }
 
     @Override
