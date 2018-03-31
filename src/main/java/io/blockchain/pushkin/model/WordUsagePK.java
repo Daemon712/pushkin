@@ -36,4 +36,22 @@ public class WordUsagePK implements Serializable {
     public void setIndex(Integer index) {
         this.index = index;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        WordUsagePK that = (WordUsagePK) o;
+
+        if (messagePK != null ? !messagePK.equals(that.messagePK) : that.messagePK != null) return false;
+        return index != null ? index.equals(that.index) : that.index == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = messagePK != null ? messagePK.hashCode() : 0;
+        result = 31 * result + (index != null ? index.hashCode() : 0);
+        return result;
+    }
 }
